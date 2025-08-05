@@ -10,7 +10,6 @@ import { bestCpuMove } from "@/utils/alphabeta";
 const ReversiGame: React.FC = () => {
   const [level, setLevel] = useState<1 | 2 | 3 | 4>(1);
   const [lang, setLang] = useState<"en" | "ja">("en");
-  // 先手=player starts (true), 後手=false
   const [playerStarts, setPlayerStarts] = useState(true);
 
   const {
@@ -79,10 +78,8 @@ const ReversiGame: React.FC = () => {
     };
   }, [board, currentPlayer, level, gameOver, setBoard, setCurrentPlayer, setIsCpuThinking]);
 
-  // リセット時にトグルを反映
   const handleReset = () => {
     reset();
-    // reset() 直後は currentPlayer を 1 に戻しているため、後手開始の場合は CPUからに変更
     if (!playerStarts) {
       setCurrentPlayer(-1 as Cell);
     } else {
@@ -94,15 +91,12 @@ const ReversiGame: React.FC = () => {
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
         <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
-          {/* 左カラム: 中央揃え */}
           <div className="space-y-4 md:pr-2 p-6 flex flex-col items-center text-center">
-            {/* タイトル/説明カード */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <h2 className="text-xl font-semibold">{title}</h2>
               <p className="text-sm text-white">{desc}</p>
             </div>
 
-            {/* コントロールカード */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <ReversiControls
                 level={level}
@@ -115,7 +109,7 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* 先手/後手トグル（灰色角丸カード内） */}
+            {/* 先手/後手トグル＋リセット（右） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <div className="flex items-center justify-center gap-4">
                 <button
@@ -130,21 +124,19 @@ const ReversiGame: React.FC = () => {
                 >
                   {secondLabel}
                 </button>
+
+                {/* リセットを後手の右に配置 */}
+                <Button
+                  variant="default"
+                  className="ml-2 bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
+                  onClick={handleReset}
+                >
+                  {resetLabel}
+                </Button>
               </div>
               <p className="mt-2 text-xs text-white/80">
                 {lang === "ja" ? "リセット時に適用されます" : "Applied when you press Reset"}
               </p>
-            </div>
-
-            {/* リセットボタン（灰色角丸カード内） */}
-            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full flex justify-center">
-              <Button
-                variant="default"
-                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
-                onClick={handleReset}
-              >
-                {resetLabel}
-              </Button>
             </div>
 
             {/* ターン表示カード（スコア直上） */}
@@ -164,7 +156,6 @@ const ReversiGame: React.FC = () => {
               </div>
             </div>
 
-            {/* スコアカード */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <ReversiScore
                 score={score}
@@ -174,7 +165,6 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* 言語切替ボタン（灰色角丸カード内・スコアの下） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full flex justify-center">
               <Button
                 variant="default"
@@ -186,7 +176,6 @@ const ReversiGame: React.FC = () => {
             </div>
           </div>
 
-          {/* 右カラム：盤面 */}
           <div className="flex items-center justify-center p-6">
             <ReversiBoard
               board={board}
