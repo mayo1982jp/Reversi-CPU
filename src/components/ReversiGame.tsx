@@ -30,7 +30,7 @@ const ReversiGame: React.FC = () => {
 
   return (
     <Card className="w-full max-w-6xl">
-      <CardContent className="grid gap-6 md:grid-cols-[320px_1fr]">
+      <CardContent className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white">
         {/* 左: ヘッダー + 操作エリア */}
         <div className="space-y-4 md:pr-2">
           <div>
