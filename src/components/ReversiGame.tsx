@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ReversiBoard from "./ReversiBoard";
 import ReversiControls from "./ReversiControls";
 import ReversiScore from "./ReversiScore";
-import { useReversi } from "@/components/useReversi";
+import { useReversi } from "@/hooks/useReversi";
 import { Button } from "@/components/ui/button";
 import { bestCpuMove } from "@/utils/alphabeta";
 import { applyMove, getValidMoves, type Cell } from "@/hooks/useReversi";
