@@ -32,22 +32,36 @@ const ReversiGame: React.FC = () => {
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
         <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
-          {/* 左: ヘッダー + 操作エリア */}
+          {/* 左: ヘッダー + 操作エリア（角丸カードデザイン） */}
           <div className="space-y-4 md:pr-2 p-6">
-            <div>
+            {/* タイトル/説明カード */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
               <h2 className="text-xl font-semibold">{title}</h2>
               <p className="text-sm text-muted-foreground">{desc}</p>
             </div>
-            <ReversiControls
-              level={level}
-              onLevelChange={(lv: number) => setLevel((lv as 0 | 1 | 2))}
-              lang={lang}
-              onReset={resetGame}
-              onPass={passTurn}
-              isCpuThinking={isCpuThinking}
-              canPass={!gameOver}
-            />
-            <ReversiScore score={score} lang={lang} gameOver={gameOver} winnerLabel={winnerLabel} />
+
+            {/* コントロールカード */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
+              <ReversiControls
+                level={level}
+                onLevelChange={(lv: number) => setLevel((lv as 0 | 1 | 2))}
+                lang={lang}
+                onReset={resetGame}
+                onPass={passTurn}
+                isCpuThinking={isCpuThinking}
+                canPass={!gameOver}
+              />
+            </div>
+
+            {/* スコアカード */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
+              <ReversiScore
+                score={score}
+                lang={lang}
+                gameOver={gameOver}
+                winnerLabel={winnerLabel}
+              />
+            </div>
           </div>
 
           {/* 右: 盤面エリア */}
