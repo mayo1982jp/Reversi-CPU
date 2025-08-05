@@ -59,7 +59,7 @@ const ReversiBoard: React.FC<ReversiBoardProps> = ({
                 key={`${r}-${c}`}
                 aria-label={`cell-${r}-${c}`}
                 className={cn(
-                  "relative rounded-sm bg-emerald-600 hover:bg-emerald-500 transition-colors flex items-center justify-center",
+                  "relative rounded-sm bg-emerald-600 hover:bg-emerald-500 transition-colors flex items-center justify-center aspect-square",
                   valid && "ring-2 ring-yellow-400"
                 )}
                 onClick={() => valid && onPlace(r, c)}
@@ -68,12 +68,12 @@ const ReversiBoard: React.FC<ReversiBoardProps> = ({
                 {cell !== 0 ? (
                   <div
                     className={cn(
-                      "w-[80%] h-[80%] rounded-full shadow-inner",
+                      "size-[80%] rounded-full shadow-inner",
                       cell === 1 ? "bg-black" : "bg-white"
                     )}
                   />
                 ) : valid ? (
-                  <div className="w-3 h-3 rounded-full bg-yellow-400/80" />
+                  <div className="size-3 rounded-full bg-yellow-400/80" />
                 ) : null}
               </button>
             );
