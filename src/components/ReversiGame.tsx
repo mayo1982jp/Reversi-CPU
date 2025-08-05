@@ -69,7 +69,11 @@ const ReversiGame: React.FC = () => {
 
             {/* 言語切替ボタン（スコア下、リセット上） */}
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}>
+              <Button
+                variant="outline"
+                className="text-black border-white/40 bg-white hover:bg-white/90"
+                onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}
+              >
                 {langToggleLabel}
               </Button>
             </div>
