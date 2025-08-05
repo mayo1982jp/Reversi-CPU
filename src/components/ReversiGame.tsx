@@ -30,35 +30,37 @@ const ReversiGame: React.FC = () => {
 
   return (
     <Card className="w-full max-w-6xl">
-      <CardContent className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white">
-        {/* 左: ヘッダー + 操作エリア */}
-        <div className="space-y-4 md:pr-2">
-          <div>
-            <h2 className="text-xl font-semibold">{title}</h2>
-            <p className="text-sm text-muted-foreground">{desc}</p>
+      <CardContent className="p-0">
+        <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
+          {/* 左: ヘッダー + 操作エリア */}
+          <div className="space-y-4 md:pr-2 p-6">
+            <div>
+              <h2 className="text-xl font-semibold">{title}</h2>
+              <p className="text-sm text-muted-foreground">{desc}</p>
+            </div>
+            <ReversiControls
+              level={level}
+              onLevelChange={(lv: number) => setLevel((lv as 0 | 1 | 2))}
+              lang={lang}
+              onReset={resetGame}
+              onPass={passTurn}
+              isCpuThinking={isCpuThinking}
+              canPass={!gameOver}
+            />
+            <ReversiScore score={score} lang={lang} gameOver={gameOver} winnerLabel={winnerLabel} />
           </div>
-          <ReversiControls
-            level={level}
-            onLevelChange={(lv: number) => setLevel((lv as 0 | 1 | 2))}
-            lang={lang}
-            onReset={resetGame}
-            onPass={passTurn}
-            isCpuThinking={isCpuThinking}
-            canPass={!gameOver}
-          />
-          <ReversiScore score={score} lang={lang} gameOver={gameOver} winnerLabel={winnerLabel} />
-        </div>
 
-        {/* 右: 盤面エリア */}
-        <div className="flex items-center justify-center">
-          <ReversiBoard
-            board={board}
-            validMoves={validMoves}
-            onPlace={onPlace}
-            currentPlayer={currentPlayer}
-            isCpuThinking={isCpuThinking}
-            lang={lang}
-          />
+          {/* 右: 盤面エリア */}
+          <div className="flex items-center justify-center p-6">
+            <ReversiBoard
+              board={board}
+              validMoves={validMoves}
+              onPlace={onPlace}
+              currentPlayer={currentPlayer}
+              isCpuThinking={isCpuThinking}
+              lang={lang}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>
