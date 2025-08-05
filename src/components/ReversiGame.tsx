@@ -4,6 +4,7 @@ import ReversiBoard from "./ReversiBoard";
 import ReversiControls from "./ReversiControls";
 import ReversiScore from "./ReversiScore";
 import { useReversi } from "@/components/useReversi";
+import { Button } from "@/components/ui/button";
 
 const ReversiGame: React.FC = () => {
   const [level, setLevel] = useState<0 | 1 | 2>(0);
@@ -28,6 +29,8 @@ const ReversiGame: React.FC = () => {
     [lang]
   );
 
+  const resetLabel = lang === "ja" ? "リセット" : "Reset";
+
   return (
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
@@ -40,7 +43,7 @@ const ReversiGame: React.FC = () => {
               <p className="text-sm text-muted-foreground">{desc}</p>
             </div>
 
-            {/* コントロールカード */}
+            {/* コントロールカード（レベルのみ） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
               <ReversiControls
                 level={level}
@@ -61,6 +64,13 @@ const ReversiGame: React.FC = () => {
                 gameOver={gameOver}
                 winnerLabel={winnerLabel}
               />
+            </div>
+
+            {/* リセットボタン（スコア下） */}
+            <div>
+              <Button variant="secondary" onClick={resetGame}>
+                {resetLabel}
+              </Button>
             </div>
           </div>
 
