@@ -18,33 +18,17 @@ const ReversiBoard: React.FC<ReversiBoardProps> = ({
   onPlace,
   currentPlayer,
   isCpuThinking,
-  lang,
 }) => {
   const size = 8;
 
   const isValid = (r: number, c: number) =>
     validMoves.some(([vr, vc]) => vr === r && vc === c);
 
-  const labelTurn =
-    lang === "ja"
-      ? currentPlayer === 1
-        ? "あなたの番（黒）"
-        : isCpuThinking
-          ? "CPU思考中（白）"
-          : "CPUの番（白）"
-      : currentPlayer === 1
-        ? "Your turn (Black)"
-        : isCpuThinking
-          ? "CPU thinking (White)"
-          : "CPU turn (White)";
-
   return (
     <div className="flex flex-col items-center gap-3 w-full">
-      <div className="text-sm text-muted-foreground">{labelTurn}</div>
       <div
         className={cn(
           "grid bg-emerald-700 rounded-md shadow-md p-1.5 gap-1.5 aspect-square",
-          // 最大サイズ: 画面幅/高さの小さい方にフィット（上下の他UIぶん少し控え）
           "w-[min(calc(100vw-32px),calc(100vh-160px))]"
         )}
         style={{

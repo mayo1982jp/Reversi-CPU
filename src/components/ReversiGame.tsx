@@ -81,6 +81,23 @@ const ReversiGame: React.FC = () => {
         <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
           {/* 左カラム: 中央揃え */}
           <div className="space-y-4 md:pr-2 p-6 flex flex-col items-center text-center">
+            {/* ターン表示カード */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
+              <div className="text-sm">
+                {currentPlayer === 1
+                  ? lang === "ja"
+                    ? "あなたの番（黒）"
+                    : "Your turn (Black)"
+                  : isCpuThinking
+                  ? lang === "ja"
+                    ? "CPU思考中（白）"
+                    : "CPU thinking (White)"
+                  : lang === "ja"
+                  ? "CPUの番（白）"
+                  : "CPU turn (White)"}
+              </div>
+            </div>
+
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <h2 className="text-xl font-semibold">{title}</h2>
               <p className="text-sm text-muted-foreground">{desc}</p>
