@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 type Props = {
   level: number;
   onLevelChange: (level: number) => void;
-  onReset: () => void; // kept for compatibility but unused here
+  onReset: () => void; // compatibility (unused here)
   onPass: () => void; // unused
   lang: "en" | "ja";
   isCpuThinking: boolean; // unused
@@ -28,9 +28,10 @@ const ReversiControls: React.FC<Props> = ({
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="0">0</SelectItem>
               <SelectItem value="1">1</SelectItem>
               <SelectItem value="2">2</SelectItem>
+              <SelectItem value="3">3</SelectItem>
+              <SelectItem value="4">4</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

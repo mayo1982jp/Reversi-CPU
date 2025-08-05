@@ -99,7 +99,7 @@ export function countPieces(board: Cell[][]): { black: number; white: number } {
   return { black, white };
 }
 
-// Positional weights (favor corners, penalize adjacent to corners)
+// Positional weights
 const WEIGHTS: number[][] = [
   [120, -20, 20, 5, 5, 20, -20, 120],
   [-20, -40, -5, -5, -5, -5, -40, -20],
@@ -112,8 +112,6 @@ const WEIGHTS: number[][] = [
 ];
 
 export function evaluate(board: Cell[][]): number {
-  // Positive means advantage for White(CPU -1) or Black(1)? We'll evaluate from White's perspective negative.
-  // Let's define evaluation as (white - black) positional score so higher is better for white(CPU=-1).
   let whiteScore = 0;
   let blackScore = 0;
   for (let r = 0; r < SIZE; r++) {
@@ -125,9 +123,24 @@ export function evaluate(board: Cell[][]): number {
   return whiteScore - blackScore;
 }
 
-export function useReversi() {
+export type Level = 1 | 2 | 3 | 4;
+
+export type UseReversiReturn = {
+  board: Cell[][];
+  setBoard: React.Dispatch<React.SetStateAction<Cell[][]>>;
+  currentPlayer: Cell;
+  setCurrentPlayer: React.Dispatch<React.SetStateAction<Cell>>;
+  isCpuThinking: boolean;
+  setIsCpuThinking: React.Dispatch<React.SetStateAction<boolean>>;
+  reset: () => void;
+  score: { black: number; white: number };
+  gameOver: boolean;
+  winnerLabel: string | null;
+};
+
+export function useReversi(_level: Level, lang: "en" | "ja"): UseReversiReturn {
   const [board, setBoard] = React.useState<Cell[][]>(initialBoard);
-  const [currentPlayer, setCurrentPlayer] = React.useState<Cell>(1); // player starts
+  const [currentPlayer, setCurrentPlayer] = React.useState<Cell>(1);
   const [isCpuThinking, setIsCpuThinking] = React.useState(false);
 
   const reset = React.useCallback(() => {
@@ -135,6 +148,23 @@ export function useReversi() {
     setCurrentPlayer(1);
     setIsCpuThinking(false);
   }, []);
+
+  const score = React.useMemo(() => countPieces(board), [board]);
+
+  const gameOver = React.useMemo(() => {
+    const hasBlack = getValidMoves(board, 1).length > 0;
+    const hasWhite = getValidMoves(board, -1).length > 0;
+    const anyEmpty = board.some((r) => r.some((c) => c === 0));
+    return (!hasBlack && !hasWhite) || !anyEmpty;
+  }, [board]);
+
+  const winnerLabel = React.useMemo(() => {
+    if (!gameOver) return null;
+    const { black, white } = score;
+    if (black === white) return lang === "ja" ? "引き分け" : "Draw";
+    const blackWin = black > white;
+    return lang === "ja" ? (blackWin ? "勝者: 黒" : "勝者: 白") : blackWin ? "Winner: Black" : "Winner: White";
+  }, [gameOver, score, lang]);
 
   return {
     board,
@@ -144,5 +174,8 @@ export function useReversi() {
     isCpuThinking,
     setIsCpuThinking,
     reset,
+    score,
+    gameOver,
+    winnerLabel,
   };
 }

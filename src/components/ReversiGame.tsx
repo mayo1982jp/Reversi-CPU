@@ -1,24 +1,26 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import ReversiBoard from "./ReversiBoard";
 import ReversiControls from "./ReversiControls";
 import ReversiScore from "./ReversiScore";
 import { useReversi } from "@/components/useReversi";
 import { Button } from "@/components/ui/button";
+import { bestCpuMove } from "@/utils/alphabeta";
+import { applyMove, getValidMoves, type Cell } from "@/hooks/useReversi";
 
 const ReversiGame: React.FC = () => {
-  const [level, setLevel] = useState<0 | 1 | 2>(0);
+  const [level, setLevel] = useState<1 | 2 | 3 | 4>(1);
   const [lang, setLang] = useState<"en" | "ja">("en");
 
   const {
     board,
+    setBoard,
     currentPlayer,
-    validMoves,
+    setCurrentPlayer,
     isCpuThinking,
-    onPlace,
-    resetGame,
+    setIsCpuThinking,
+    reset,
     score,
-    passTurn,
     gameOver,
     winnerLabel,
   } = useReversi(level, lang);
@@ -31,6 +33,51 @@ const ReversiGame: React.FC = () => {
 
   const resetLabel = lang === "ja" ? "リセット" : "Reset";
   const langToggleLabel = lang === "ja" ? "English" : "日本語";
+
+  const validMoves = useMemo(() => getValidMoves(board, currentPlayer), [board, currentPlayer]);
+
+  // プレイヤーの手入力
+  const onPlace = (r: number, c: number) => {
+    if (currentPlayer !== 1 || isCpuThinking || gameOver) return;
+    const moves = getValidMoves(board, 1);
+    if (!moves.some(([mr, mc]) => mr === r && mc === c)) return;
+    const nb = applyMove(board, r, c, 1);
+    setBoard(nb);
+    setCurrentPlayer(-1 as Cell);
+  };
+
+  // CPU手番: アルファベータで探索
+  const timerRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (gameOver) return;
+    if (currentPlayer !== -1) return;
+
+    const moves = getValidMoves(board, -1);
+    if (moves.length === 0) {
+      // CPUパス
+      setCurrentPlayer(1 as Cell);
+      return;
+    }
+
+    setIsCpuThinking(true);
+    timerRef.current = window.setTimeout(() => {
+      const depth = Math.max(1, Math.min(4, level));
+      const move = bestCpuMove(board, depth);
+      if (move) {
+        const nb = applyMove(board, move[0], move[1], -1);
+        setBoard(nb);
+      }
+      setCurrentPlayer(1 as Cell);
+      setIsCpuThinking(false);
+    }, 250);
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [board, currentPlayer, level, gameOver, setBoard, setCurrentPlayer, setIsCpuThinking]);
 
   return (
     <Card className="w-full max-w-6xl">
@@ -48,10 +95,10 @@ const ReversiGame: React.FC = () => {
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
               <ReversiControls
                 level={level}
-                onLevelChange={(lv: number) => setLevel((lv as 0 | 1 | 2))}
+                onLevelChange={(lv: number) => setLevel((lv as 1 | 2 | 3 | 4))}
                 lang={lang}
-                onReset={resetGame}
-                onPass={passTurn}
+                onReset={reset}
+                onPass={() => {}}
                 isCpuThinking={isCpuThinking}
                 canPass={!gameOver}
               />
@@ -80,7 +127,7 @@ const ReversiGame: React.FC = () => {
 
             {/* リセットボタン（スコア下） */}
             <div>
-              <Button variant="secondary" onClick={resetGame}>
+              <Button variant="secondary" onClick={reset}>
                 {resetLabel}
               </Button>
             </div>
