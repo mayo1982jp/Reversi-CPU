@@ -84,7 +84,7 @@ const ReversiGame: React.FC = () => {
             {/* タイトル/説明カード */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <h2 className="text-xl font-semibold">{title}</h2>
-              <p className="text-sm text-muted-foreground">{desc}</p>
+              <p className="text-sm text-white">{desc}</p>
             </div>
 
             {/* コントロールカード */}
@@ -100,7 +100,7 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* ターン表示カード（ここに移動：スコアの直上） */}
+            {/* ターン表示カード（スコア直上） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <div className="text-sm">
                 {currentPlayer === 1
