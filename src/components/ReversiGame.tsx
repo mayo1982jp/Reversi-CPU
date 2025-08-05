@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 const ReversiGame: React.FC = () => {
   const [level, setLevel] = useState<0 | 1 | 2>(0);
-  const [lang] = useState<"en" | "ja">("ja");
+  const [lang, setLang] = useState<"en" | "ja">("en");
 
   const {
     board,
@@ -30,6 +30,7 @@ const ReversiGame: React.FC = () => {
   );
 
   const resetLabel = lang === "ja" ? "リセット" : "Reset";
+  const langToggleLabel = lang === "ja" ? "English" : "日本語";
 
   return (
     <Card className="w-full max-w-6xl">
@@ -64,6 +65,13 @@ const ReversiGame: React.FC = () => {
                 gameOver={gameOver}
                 winnerLabel={winnerLabel}
               />
+            </div>
+
+            {/* 言語切替ボタン（スコア下、リセット上） */}
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}>
+                {langToggleLabel}
+              </Button>
             </div>
 
             {/* リセットボタン（スコア下） */}
