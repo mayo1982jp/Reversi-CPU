@@ -39,16 +39,16 @@ const ReversiBoard: React.FC<ReversiBoardProps> = ({
           : "CPU turn (White)";
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-3 w-full">
       <div className="text-sm text-muted-foreground">{labelTurn}</div>
       <div
-        className="grid bg-emerald-700 rounded-md shadow-md"
+        className={cn(
+          "grid bg-emerald-700 rounded-md shadow-md p-1.5 gap-1.5 aspect-square",
+          // 最大サイズ: 画面幅/高さの小さい方にフィット（上下の他UIぶん少し控え）
+          "w-[min(calc(100vw-32px),calc(100vh-160px))]"
+        )}
         style={{
           gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
-          width: "min(92vw, 520px)",
-          aspectRatio: "1 / 1",
-          padding: "6px",
-          gap: "6px",
         }}
       >
         {board.map((row, r) =>
