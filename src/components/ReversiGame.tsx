@@ -100,17 +100,6 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* 言語切替ボタン */}
-            <div className="flex gap-2">
-              <Button
-                variant="default"
-                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
-                onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}
-              >
-                {langToggleLabel}
-              </Button>
-            </div>
-
             {/* リセットボタン（独立Div） */}
             <div className="w-full flex justify-center">
               <Button
@@ -122,7 +111,7 @@ const ReversiGame: React.FC = () => {
               </Button>
             </div>
 
-            {/* ターン表示カード（リセットの下、スコアの上） */}
+            {/* ターン表示カード（スコア直上） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <div className="text-sm">
                 {currentPlayer === 1
@@ -147,6 +136,17 @@ const ReversiGame: React.FC = () => {
                 gameOver={gameOver}
                 winnerLabel={winnerLabel}
               />
+            </div>
+
+            {/* 言語切替ボタン（独立Div・スコアの下） */}
+            <div className="w-full flex justify-center">
+              <Button
+                variant="default"
+                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
+                onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}
+              >
+                {langToggleLabel}
+              </Button>
             </div>
           </div>
 
