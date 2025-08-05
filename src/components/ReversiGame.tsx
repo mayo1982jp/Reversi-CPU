@@ -90,8 +90,9 @@ const ReversiGame: React.FC = () => {
   return (
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
-        <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
-          <div className="space-y-4 md:pr-2 p-6 flex flex-col items-center text-center">
+        <div className="grid gap-6 md:grid-cols-[minmax(280px,360px)_1fr] bg-black text-white rounded-md overflow-hidden">
+          {/* 左カラム: 中央揃え、幅最適化 */}
+          <div className="space-y-4 md:pr-2 p-6 flex flex-col items-center text-center w-full md:w-auto max-w-[360px]">
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <h2 className="text-xl font-semibold">{title}</h2>
               <p className="text-sm text-white">{desc}</p>
@@ -111,7 +112,7 @@ const ReversiGame: React.FC = () => {
 
             {/* 先手/後手トグル＋リセット（右） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-center gap-3 flex-wrap">
                 <button
                   className={`px-3 py-1.5 rounded-md border ${playerStarts ? "bg-emerald-700 border-emerald-600 text-white" : "bg-transparent border-white/20 text-white/80 hover:bg-white/10"}`}
                   onClick={() => setPlayerStarts(true)}
@@ -124,8 +125,6 @@ const ReversiGame: React.FC = () => {
                 >
                   {secondLabel}
                 </button>
-
-                {/* リセットを後手の右に配置 */}
                 <Button
                   variant="default"
                   className="ml-2 bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
@@ -139,7 +138,6 @@ const ReversiGame: React.FC = () => {
               </p>
             </div>
 
-            {/* ターン表示カード（スコア直上） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <div className="text-sm">
                 {currentPlayer === 1
