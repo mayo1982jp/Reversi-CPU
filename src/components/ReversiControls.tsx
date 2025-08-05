@@ -1,32 +1,29 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 
 type Props = {
   level: number;
   onLevelChange: (level: number) => void;
   onReset: () => void;
+  onPass: () => void;
   lang: "en" | "ja";
-  onToggleLang: () => void;
-  scores: { black: number; white: number };
+  isCpuThinking: boolean;
+  canPass: boolean;
 };
 
 const ReversiControls: React.FC<Props> = ({
   level,
   onLevelChange,
   onReset,
+  onPass,
   lang,
-  onToggleLang,
-  scores,
+  isCpuThinking,
+  canPass,
 }) => {
   const labelLevel = lang === "ja" ? "レベル" : "Level";
   const labelReset = lang === "ja" ? "リセット" : "Reset";
-  const labelLang = lang === "ja" ? "日本語" : "Japanese";
-  const labelScore =
-    lang === "ja"
-      ? `スコア: 黒 ${scores.black} - 白 ${scores.white}`
-      : `Score: Black ${scores.black} - White ${scores.white}`;
+  const labelPass = lang === "ja" ? "パス" : "Pass";
 
   return (
     <div className="w-full flex flex-col sm:flex-row items-center gap-3 justify-between">
@@ -38,10 +35,9 @@ const ReversiControls: React.FC<Props> = ({
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
+              <SelectItem value="0">0</SelectItem>
               <SelectItem value="1">1</SelectItem>
               <SelectItem value="2">2</SelectItem>
-              <SelectItem value="3">3</SelectItem>
-              <SelectItem value="4">4</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -50,10 +46,10 @@ const ReversiControls: React.FC<Props> = ({
         </Button>
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">{labelLang}</span>
-        <Switch checked={lang === "ja"} onCheckedChange={onToggleLang} />
+        <Button onClick={onPass} disabled={!canPass || isCpuThinking} variant="default">
+          {labelPass}
+        </Button>
       </div>
-      <div className="text-sm">{labelScore}</div>
     </div>
   );
 };
