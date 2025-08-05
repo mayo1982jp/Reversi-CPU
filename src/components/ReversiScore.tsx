@@ -21,7 +21,7 @@ const ReversiScore: React.FC<Props> = ({ score, lang, gameOver, winnerLabel }) =
 
   return (
     <Card>
-      <CardContent className="p-4 space-y-2">
+      <CardContent className="p-4 space-y-2 bg-emerald-700 text-white rounded-md">
         <div className="font-medium">{title}</div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ const ReversiScore: React.FC<Props> = ({ score, lang, gameOver, winnerLabel }) =
           <span className="font-semibold">{score.white}</span>
         </div>
         {gameOver && (
-          <div className="pt-2 text-sm text-muted-foreground">
+          <div className="pt-2 text-sm text-white/90">
             <span className="font-medium mr-2">{resultLabel}:</span>
             <span>{winnerLabel ?? "-"}</span>
           </div>
