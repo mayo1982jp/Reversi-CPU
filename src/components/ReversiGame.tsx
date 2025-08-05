@@ -24,9 +24,9 @@ const ReversiGame: React.FC = () => {
     winnerLabel,
   } = useReversi(level, lang);
 
-  const title = useMemo(() => (lang === "ja" ? "CPUリバーシ" : "CPU Reversi"), [lang]);
+  const title = useMemo(() => (lang === "ja" ? "リバーシ" : "Reversi"), [lang]);
   const desc = useMemo(
-    () => (lang === "ja" ? "難易度を選んで遊べます" : "Choose difficulty."),
+    () => (lang === "ja" ? "CPU対戦。難易度を選んで遊べます。" : "Play against CPU. Choose difficulty."),
     [lang]
   );
 
@@ -100,7 +100,29 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* ターン表示カード（スコア直上） */}
+            {/* 言語切替ボタン */}
+            <div className="flex gap-2">
+              <Button
+                variant="default"
+                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
+                onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}
+              >
+                {langToggleLabel}
+              </Button>
+            </div>
+
+            {/* リセットボタン（独立Div） */}
+            <div className="w-full flex justify-center">
+              <Button
+                variant="default"
+                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
+                onClick={reset}
+              >
+                {resetLabel}
+              </Button>
+            </div>
+
+            {/* ターン表示カード（リセットの下、スコアの上） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <div className="text-sm">
                 {currentPlayer === 1
@@ -125,28 +147,6 @@ const ReversiGame: React.FC = () => {
                 gameOver={gameOver}
                 winnerLabel={winnerLabel}
               />
-            </div>
-
-            {/* 言語切替ボタン */}
-            <div className="flex gap-2">
-              <Button
-                variant="default"
-                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
-                onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}
-              >
-                {langToggleLabel}
-              </Button>
-            </div>
-
-            {/* リセットボタン */}
-            <div>
-              <Button
-                variant="default"
-                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
-                onClick={reset}
-              >
-                {resetLabel}
-              </Button>
             </div>
           </div>
 
