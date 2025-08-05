@@ -34,19 +34,9 @@ const ReversiGame: React.FC = () => {
         <CardTitle>{title}</CardTitle>
         <CardDescription>{desc}</CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-6 md:grid-cols-[1fr_320px]">
-        <div className="flex items-center justify-center">
-          <ReversiBoard
-            board={board}
-            validMoves={validMoves}
-            onPlace={onPlace}
-            currentPlayer={currentPlayer}
-            isCpuThinking={isCpuThinking}
-            lang={lang}
-          />
-        </div>
-
-        <div className="space-y-4 md:pl-2">
+      <CardContent className="grid gap-6 md:grid-cols-[320px_1fr]">
+        {/* 左: 操作エリア */}
+        <div className="space-y-4 md:pr-2">
           <ReversiControls
             level={level}
             onLevelChange={(lv: number) => setLevel((lv as 0 | 1 | 2))}
@@ -57,6 +47,18 @@ const ReversiGame: React.FC = () => {
             canPass={!gameOver}
           />
           <ReversiScore score={score} lang={lang} gameOver={gameOver} winnerLabel={winnerLabel} />
+        </div>
+
+        {/* 右: 盤面エリア */}
+        <div className="flex items-center justify-center">
+          <ReversiBoard
+            board={board}
+            validMoves={validMoves}
+            onPlace={onPlace}
+            currentPlayer={currentPlayer}
+            isCpuThinking={isCpuThinking}
+            lang={lang}
+          />
         </div>
       </CardContent>
     </Card>
