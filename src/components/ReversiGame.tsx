@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import ReversiBoard from "./ReversiBoard";
 import ReversiControls from "./ReversiControls";
 import ReversiScore from "./ReversiScore";
@@ -30,13 +30,13 @@ const ReversiGame: React.FC = () => {
 
   return (
     <Card className="w-full max-w-6xl">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{desc}</CardDescription>
-      </CardHeader>
       <CardContent className="grid gap-6 md:grid-cols-[320px_1fr]">
-        {/* 左: 操作エリア */}
+        {/* 左: ヘッダー + 操作エリア */}
         <div className="space-y-4 md:pr-2">
+          <div>
+            <h2 className="text-xl font-semibold">{title}</h2>
+            <p className="text-sm text-muted-foreground">{desc}</p>
+          </div>
           <ReversiControls
             level={level}
             onLevelChange={(lv: number) => setLevel((lv as 0 | 1 | 2))}
