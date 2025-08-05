@@ -117,7 +117,11 @@ const ReversiGame: React.FC = () => {
             </div>
 
             <div>
-              <Button variant="secondary" onClick={reset}>
+              <Button
+                variant="default"
+                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
+                onClick={reset}
+              >
                 {resetLabel}
               </Button>
             </div>
