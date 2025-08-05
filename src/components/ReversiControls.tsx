@@ -6,24 +6,20 @@ type Props = {
   level: number;
   onLevelChange: (level: number) => void;
   onReset: () => void;
-  onPass: () => void;
+  onPass: () => void; // kept in props for compatibility but unused
   lang: "en" | "ja";
-  isCpuThinking: boolean;
-  canPass: boolean;
+  isCpuThinking: boolean; // unused now but kept for compatibility
+  canPass: boolean; // unused now but kept for compatibility
 };
 
 const ReversiControls: React.FC<Props> = ({
   level,
   onLevelChange,
   onReset,
-  onPass,
   lang,
-  isCpuThinking,
-  canPass,
 }) => {
   const labelLevel = lang === "ja" ? "レベル" : "Level";
   const labelReset = lang === "ja" ? "リセット" : "Reset";
-  const labelPass = lang === "ja" ? "パス" : "Pass";
 
   return (
     <div className="w-full flex flex-col sm:flex-row items-center gap-3 justify-between">
@@ -45,11 +41,8 @@ const ReversiControls: React.FC<Props> = ({
           {labelReset}
         </Button>
       </div>
-      <div className="flex items-center gap-2">
-        <Button onClick={onPass} disabled={!canPass || isCpuThinking} variant="default">
-          {labelPass}
-        </Button>
-      </div>
+      {/* Right side previously contained Pass button; now intentionally empty to keep spacing consistent */}
+      <div className="flex items-center gap-2" />
     </div>
   );
 };
