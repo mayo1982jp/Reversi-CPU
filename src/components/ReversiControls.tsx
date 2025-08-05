@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 type Props = {
   level: number;
   onLevelChange: (level: number) => void;
-  onReset: () => void; // compatibility (unused here)
+  onReset: () => void; // kept for compatibility but unused here
   onPass: () => void; // unused
   lang: "en" | "ja";
   isCpuThinking: boolean; // unused
@@ -23,7 +23,7 @@ const ReversiControls: React.FC<Props> = ({
       <div className="flex items-center gap-3">
         <div className="text-sm font-medium">{labelLevel}</div>
         <Select value={String(level)} onValueChange={(v) => onLevelChange(Number(v))}>
-          <SelectTrigger className="w-28">
+          <SelectTrigger className="w-28 bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-500">
             <SelectValue placeholder="Level" />
           </SelectTrigger>
           <SelectContent>
