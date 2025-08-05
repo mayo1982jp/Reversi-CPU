@@ -3,10 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import ReversiBoard from "./ReversiBoard";
 import ReversiControls from "./ReversiControls";
 import ReversiScore from "./ReversiScore";
-import { useReversi } from "@/hooks/useReversi";
+import { useReversi, applyMove, getValidMoves, type Cell } from "@/hooks/useReversi";
 import { Button } from "@/components/ui/button";
 import { bestCpuMove } from "@/utils/alphabeta";
-import { applyMove, getValidMoves, type Cell } from "@/hooks/useReversi";
 
 const ReversiGame: React.FC = () => {
   const [level, setLevel] = useState<1 | 2 | 3 | 4>(1);
@@ -32,11 +31,12 @@ const ReversiGame: React.FC = () => {
   );
 
   const resetLabel = lang === "ja" ? "リセット" : "Reset";
-  const langToggleLabel = lang === "ja" ? "English" : "日本語";
+  // Toggle label: show the language you will switch to
+  const langToggleLabel = lang === "ja" ? "English" : "Japanese";
 
   const validMoves = useMemo(() => getValidMoves(board, currentPlayer), [board, currentPlayer]);
 
-  // プレイヤーの手入力
+  // Player move
   const onPlace = (r: number, c: number) => {
     if (currentPlayer !== 1 || isCpuThinking || gameOver) return;
     const moves = getValidMoves(board, 1);
@@ -46,7 +46,7 @@ const ReversiGame: React.FC = () => {
     setCurrentPlayer(-1 as Cell);
   };
 
-  // CPU手番: アルファベータで探索
+  // CPU turn using alpha-beta
   const timerRef = useRef<number | null>(null);
   useEffect(() => {
     if (gameOver) return;
@@ -54,7 +54,6 @@ const ReversiGame: React.FC = () => {
 
     const moves = getValidMoves(board, -1);
     if (moves.length === 0) {
-      // CPUパス
       setCurrentPlayer(1 as Cell);
       return;
     }
@@ -83,15 +82,13 @@ const ReversiGame: React.FC = () => {
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
         <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
-          {/* 左: ヘッダー + 操作エリア（角丸カードデザイン） */}
+          {/* Left: header + controls */}
           <div className="space-y-4 md:pr-2 p-6">
-            {/* タイトル/説明カード */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
               <h2 className="text-xl font-semibold">{title}</h2>
               <p className="text-sm text-muted-foreground">{desc}</p>
             </div>
 
-            {/* コントロールカード（レベルのみ） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
               <ReversiControls
                 level={level}
@@ -104,7 +101,6 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* スコアカード */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
               <ReversiScore
                 score={score}
@@ -114,7 +110,7 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* 言語切替ボタン（スコア下、リセット上） */}
+            {/* Language toggle above reset */}
             <div className="flex gap-2">
               <Button
                 variant="outline"
@@ -125,7 +121,6 @@ const ReversiGame: React.FC = () => {
               </Button>
             </div>
 
-            {/* リセットボタン（スコア下） */}
             <div>
               <Button variant="secondary" onClick={reset}>
                 {resetLabel}
@@ -133,7 +128,7 @@ const ReversiGame: React.FC = () => {
             </div>
           </div>
 
-          {/* 右: 盤面エリア */}
+          {/* Right: board */}
           <div className="flex items-center justify-center p-6">
             <ReversiBoard
               board={board}
