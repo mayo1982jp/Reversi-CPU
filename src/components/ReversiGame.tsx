@@ -138,8 +138,8 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* 言語切替ボタン（独立Div・スコアの下） */}
-            <div className="w-full flex justify-center">
+            {/* 言語切替ボタン（灰色角丸カード内・スコアの下） */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full flex justify-center">
               <Button
                 variant="default"
                 className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
