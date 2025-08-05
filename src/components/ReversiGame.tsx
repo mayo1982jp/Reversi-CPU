@@ -31,12 +31,10 @@ const ReversiGame: React.FC = () => {
   );
 
   const resetLabel = lang === "ja" ? "リセット" : "Reset";
-  // Toggle label: show the language you will switch to
   const langToggleLabel = lang === "ja" ? "English" : "Japanese";
 
   const validMoves = useMemo(() => getValidMoves(board, currentPlayer), [board, currentPlayer]);
 
-  // Player move
   const onPlace = (r: number, c: number) => {
     if (currentPlayer !== 1 || isCpuThinking || gameOver) return;
     const moves = getValidMoves(board, 1);
@@ -46,7 +44,6 @@ const ReversiGame: React.FC = () => {
     setCurrentPlayer(-1 as Cell);
   };
 
-  // CPU turn using alpha-beta
   const timerRef = useRef<number | null>(null);
   useEffect(() => {
     if (gameOver) return;
@@ -82,7 +79,6 @@ const ReversiGame: React.FC = () => {
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
         <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
-          {/* Left: header + controls */}
           <div className="space-y-4 md:pr-2 p-6">
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
               <h2 className="text-xl font-semibold">{title}</h2>
@@ -110,11 +106,10 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            {/* Language toggle above reset */}
             <div className="flex gap-2">
               <Button
-                variant="outline"
-                className="text-black border-white/40 bg-white hover:bg-white/90"
+                variant="default"
+                className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
                 onClick={() => setLang((p) => (p === "en" ? "ja" : "en"))}
               >
                 {langToggleLabel}
@@ -128,7 +123,6 @@ const ReversiGame: React.FC = () => {
             </div>
           </div>
 
-          {/* Right: board */}
           <div className="flex items-center justify-center p-6">
             <ReversiBoard
               board={board}
