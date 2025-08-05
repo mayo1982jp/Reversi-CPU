@@ -81,7 +81,26 @@ const ReversiGame: React.FC = () => {
         <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
           {/* 左カラム: 中央揃え */}
           <div className="space-y-4 md:pr-2 p-6 flex flex-col items-center text-center">
-            {/* ターン表示カード */}
+            {/* タイトル/説明カード */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
+              <h2 className="text-xl font-semibold">{title}</h2>
+              <p className="text-sm text-muted-foreground">{desc}</p>
+            </div>
+
+            {/* コントロールカード */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
+              <ReversiControls
+                level={level}
+                onLevelChange={(lv: number) => setLevel((lv as 1 | 2 | 3 | 4))}
+                lang={lang}
+                onReset={reset}
+                onPass={() => {}}
+                isCpuThinking={isCpuThinking}
+                canPass={!gameOver}
+              />
+            </div>
+
+            {/* ターン表示カード（ここに移動：スコアの直上） */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <div className="text-sm">
                 {currentPlayer === 1
@@ -98,23 +117,7 @@ const ReversiGame: React.FC = () => {
               </div>
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
-              <h2 className="text-xl font-semibold">{title}</h2>
-              <p className="text-sm text-muted-foreground">{desc}</p>
-            </div>
-
-            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
-              <ReversiControls
-                level={level}
-                onLevelChange={(lv: number) => setLevel((lv as 1 | 2 | 3 | 4))}
-                lang={lang}
-                onReset={reset}
-                onPass={() => {}}
-                isCpuThinking={isCpuThinking}
-                canPass={!gameOver}
-              />
-            </div>
-
+            {/* スコアカード */}
             <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <ReversiScore
                 score={score}
@@ -124,6 +127,7 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
+            {/* 言語切替ボタン */}
             <div className="flex gap-2">
               <Button
                 variant="default"
@@ -134,6 +138,7 @@ const ReversiGame: React.FC = () => {
               </Button>
             </div>
 
+            {/* リセットボタン */}
             <div>
               <Button
                 variant="default"
@@ -145,6 +150,7 @@ const ReversiGame: React.FC = () => {
             </div>
           </div>
 
+          {/* 右カラム：盤面 */}
           <div className="flex items-center justify-center p-6">
             <ReversiBoard
               board={board}
