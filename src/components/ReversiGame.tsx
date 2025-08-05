@@ -10,6 +10,8 @@ import { bestCpuMove } from "@/utils/alphabeta";
 const ReversiGame: React.FC = () => {
   const [level, setLevel] = useState<1 | 2 | 3 | 4>(1);
   const [lang, setLang] = useState<"en" | "ja">("en");
+  // 先手=player starts (true), 後手=false
+  const [playerStarts, setPlayerStarts] = useState(true);
 
   const {
     board,
@@ -32,6 +34,8 @@ const ReversiGame: React.FC = () => {
 
   const resetLabel = lang === "ja" ? "リセット" : "Reset";
   const langToggleLabel = lang === "ja" ? "English" : "Japanese";
+  const firstLabel = lang === "ja" ? "先手" : "First";
+  const secondLabel = lang === "ja" ? "後手" : "Second";
 
   const validMoves = useMemo(() => getValidMoves(board, currentPlayer), [board, currentPlayer]);
 
@@ -75,6 +79,17 @@ const ReversiGame: React.FC = () => {
     };
   }, [board, currentPlayer, level, gameOver, setBoard, setCurrentPlayer, setIsCpuThinking]);
 
+  // リセット時にトグルを反映
+  const handleReset = () => {
+    reset();
+    // reset() 直後は currentPlayer を 1 に戻しているため、後手開始の場合は CPUからに変更
+    if (!playerStarts) {
+      setCurrentPlayer(-1 as Cell);
+    } else {
+      setCurrentPlayer(1 as Cell);
+    }
+  };
+
   return (
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
@@ -93,11 +108,32 @@ const ReversiGame: React.FC = () => {
                 level={level}
                 onLevelChange={(lv: number) => setLevel((lv as 1 | 2 | 3 | 4))}
                 lang={lang}
-                onReset={reset}
+                onReset={handleReset}
                 onPass={() => {}}
                 isCpuThinking={isCpuThinking}
                 canPass={!gameOver}
               />
+            </div>
+
+            {/* 先手/後手トグル（灰色角丸カード内） */}
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  className={`px-3 py-1.5 rounded-md border ${playerStarts ? "bg-emerald-700 border-emerald-600 text-white" : "bg-transparent border-white/20 text-white/80 hover:bg-white/10"}`}
+                  onClick={() => setPlayerStarts(true)}
+                >
+                  {firstLabel}
+                </button>
+                <button
+                  className={`px-3 py-1.5 rounded-md border ${!playerStarts ? "bg-emerald-700 border-emerald-600 text-white" : "bg-transparent border-white/20 text-white/80 hover:bg-white/10"}`}
+                  onClick={() => setPlayerStarts(false)}
+                >
+                  {secondLabel}
+                </button>
+              </div>
+              <p className="mt-2 text-xs text-white/80">
+                {lang === "ja" ? "リセット時に適用されます" : "Applied when you press Reset"}
+              </p>
             </div>
 
             {/* リセットボタン（灰色角丸カード内） */}
@@ -105,7 +141,7 @@ const ReversiGame: React.FC = () => {
               <Button
                 variant="default"
                 className="bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-600"
-                onClick={reset}
+                onClick={handleReset}
               >
                 {resetLabel}
               </Button>
