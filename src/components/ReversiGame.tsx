@@ -79,13 +79,14 @@ const ReversiGame: React.FC = () => {
     <Card className="w-full max-w-6xl">
       <CardContent className="p-0">
         <div className="grid gap-6 md:grid-cols-[320px_1fr] bg-black text-white rounded-md overflow-hidden">
-          <div className="space-y-4 md:pr-2 p-6">
-            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
+          {/* 左カラム: 中央揃え */}
+          <div className="space-y-4 md:pr-2 p-6 flex flex-col items-center text-center">
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <h2 className="text-xl font-semibold">{title}</h2>
               <p className="text-sm text-muted-foreground">{desc}</p>
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <ReversiControls
                 level={level}
                 onLevelChange={(lv: number) => setLevel((lv as 1 | 2 | 3 | 4))}
@@ -97,7 +98,7 @@ const ReversiGame: React.FC = () => {
               />
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4">
+            <div className="rounded-lg border border-white/10 bg-card/20 backdrop-blur-sm p-4 w-full">
               <ReversiScore
                 score={score}
                 lang={lang}
