@@ -26,7 +26,7 @@ const ReversiGame: React.FC = () => {
 
   const title = useMemo(() => (lang === "ja" ? "CPUリバーシ" : "CPU Reversi"), [lang]);
   const desc = useMemo(
-    () => (lang === "ja" ? "難易度を選んで遊べます。" : "Choose difficulty."),
+    () => (lang === "ja" ? "難易度を選んで遊べます" : "Choose difficulty."),
     [lang]
   );
 
